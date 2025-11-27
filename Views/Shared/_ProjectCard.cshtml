@@ -1,0 +1,29 @@
+@model MyPage.Models.ProjectCard
+
+<div class="carousel-slide" data-project-id="@Model.Id">
+    <div class="card bg-dark border-secondary text-white h-100 project-card">
+        <div class="card-img-top bg-gradient" style="height: 200px; background: linear-gradient(135deg, @Model.GradientColors); border-radius: 0.375rem 0.375rem 0 0;">
+            <div class="d-flex align-items-center justify-content-center h-100">
+                <i class="@Model.Icon fa-4x text-white opacity-75"></i>
+            </div>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title">@Model.Title</h3>
+            <p class="card-text">@Model.Description</p>
+            <div class="mb-3">
+                @foreach (var tech in Model.Technologies)
+                {
+                    <span class="badge bg-@Model.BadgeColor me-2">@tech</span>
+                }
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="@Model.LiveUrl" class="btn btn-outline-light" target="_blank">
+                    <i class="fas fa-external-link-alt me-2"></i>Visitar
+                </a>
+                <a href="@Model.GitHubUrl" class="text-white" target="_blank">
+                    <i class="fab fa-github fa-lg"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
