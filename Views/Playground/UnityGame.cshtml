@@ -1,0 +1,198 @@
+@model MyPage.Models.UnityGameConfig
+@{
+    ViewData["Title"] = "Unity Game - " + Model.DisplayName;
+}
+
+@section Styles {
+    <style>
+        /* Reset everything for Unity game page */
+        html, body {
+            height: 100% !important;
+            min-height: 100% !important;
+            overflow: hidden !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        footer {
+            display: none !important;
+        }
+        
+        main {
+            padding: 0 !important;
+            margin: 0 !important;
+            height: 100vh !important;
+            overflow: hidden !important;
+        }
+        
+        /* Ensure navbar stays visible */
+        header {
+            z-index: 1000 !important;
+        }
+        
+        /* Container must be positioned and sized correctly */
+        #unity-container {
+            position: fixed !important;
+            top: 56px !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: calc(100vh - 56px) !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            background: #231F20 !important;
+            z-index: 1 !important;
+        }
+        
+        /* Canvas wrapper for precise centering */
+        #unity-canvas {
+            position: relative !important;
+            margin: auto !important;
+        }
+        
+        /* Dynamic canvas size */
+        .unity-desktop #unity-canvas {
+            width: @(Model.CanvasWidth)px !important;
+            height: @(Model.CanvasHeight)px !important;
+        }
+        
+        /* Unity footer - positioned at the bottom */
+        #unity-footer {
+            position: fixed !important;
+            bottom: 10px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 20px !important;
+            padding: 10px 20px !important;
+            background: rgba(0, 0, 0, 0.7) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 25px !important;
+            z-index: 100 !important;
+        }
+        
+        #unity-build-title {
+            color: white !important;
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+        }
+        
+        .unity-controls {
+            display: flex !important;
+            align-items: center !important;
+            gap: 15px !important;
+        }
+        
+        .fullscreen-hint {
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-size: 13px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+        
+        .fullscreen-hint kbd {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: white !important;
+            padding: 4px 8px !important;
+            border-radius: 4px !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        /* Game-specific background images */
+        #unity-logo {
+            background-image: url('/games/@Model.GameName/TemplateData/unity-logo-dark.png');
+        }
+        
+        #unity-progress-bar-empty {
+            background-image: url('/games/@Model.GameName/TemplateData/progress-bar-empty-dark.png');
+        }
+        
+        #unity-progress-bar-full {
+            background-image: url('/games/@Model.GameName/TemplateData/progress-bar-full-dark.png');
+        }
+        
+        #unity-fullscreen-button {
+            background-image: url('/games/@Model.GameName/TemplateData/fullscreen-button.png');
+        }
+    </style>
+}
+
+<!-- Unity Container -->
+<div id="unity-container" class="unity-desktop with-layout">
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+    
+    <!-- Loading Bar -->
+    <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+            <div id="unity-progress-bar-full"></div>
+        </div>
+        <div class="unity-loading-text">Loading <strong>@Model.DisplayName</strong>...</div>
+    </div>
+    
+    <!-- Warning/Error Banner -->
+    <div id="unity-warning"></div>
+    
+    <!-- Footer with Game Info - Now centered at bottom -->
+    <div id="unity-footer">
+        <div id="unity-build-title">
+            <i class="fas fa-gamepad me-2"></i>@Model.DisplayName
+        </div>
+        
+        <div class="unity-controls">
+            <span class="fullscreen-hint d-none d-md-flex">
+                Press <kbd>F</kbd> for fullscreen
+            </span>
+            
+            <button id="unity-fullscreen-button" 
+                    class="border-0 bg-transparent" 
+                    title="Toggle Fullscreen (F)"
+                    aria-label="Toggle Fullscreen">
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/unity-loader.js" asp-append-version="true"></script>
+    
+    <script>
+        // Initialize Unity game with configuration
+        const gameLoader = new UnityGameLoader({
+            gameName: '@Model.GameName',
+            buildBaseName: '@Model.BuildBaseName',
+            companyName: '@Model.CompanyName',
+            productVersion: '@Model.ProductVersion'
+        });
+
+        // Make it globally accessible for debugging
+        window.currentGame = gameLoader;
+
+        // Keyboard shortcut for fullscreen (F key)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'f' || e.key === 'F') {
+                e.preventDefault();
+                const fullscreenBtn = document.getElementById('unity-fullscreen-button');
+                if (fullscreenBtn) {
+                    fullscreenBtn.click();
+                }
+            }
+        });
+
+        // Escape key to exit fullscreen
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+        });
+    </script>
+}

@@ -6,8 +6,10 @@
     <title>@ViewData["Title"] - MyPage</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/unity-game.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MyPage.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     <header>
@@ -28,12 +30,14 @@
                                 Playground
                             </a>
                             <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="Playground" asp-action="Index"><i class="fas fa-gamepad me-2"></i>All Games</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-controller="Playground" asp-action="UnityGame" asp-route-gameName="Test">Test Game</a></li>
+                                <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#">Sudoku</a></li>
                                 <li><a class="dropdown-item" href="#">Minesweeper</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
                             </ul>
-                        </div>
+                        </li>
                     </ul>
                 </div>
             </div>
