@@ -1,157 +1,36 @@
-﻿@using MyPage.Models
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
-    
-    // Define your projects data (in real app, this could come from database/service)
-    var projects = new List<ProjectCard>
-    {
-        new ProjectCard
-        {
-            Id = 0,
-            Title = "Customer Support System",
-            Description = "A comprehensive customer support platform that intergrate Facebook Messenger, Whatsapp and webchat.",
-            Icon = "fas fa-globe",
-            GradientColors = "#667eea 0%, #764ba2 100%",
-            Technologies = new List<string> { "React.js", "Laravel" },
-            BadgeColor = "primary"
-        },
-        new ProjectCard
-        {
-            Id = 1,
-            Title = "Park Guide Learning Management System",
-            Description = "An educational platform for park rangers with interactive modules, quizzes, and progress tracking.",
-            Icon = "fas fa-heartbeat",
-            GradientColors = "#f093fb 0%, #f5576c 100%",
-            Technologies = new List<string> { "React Native", "Laravel" },
-            BadgeColor = "primary"
-        },
-        new ProjectCard
-        {
-            Id = 2,
-            Title = "Pokemon Survivor",
-            Description = "A little rogue-like game that inspired from Vampire Survivor",
-            Icon = "fas fa-chart-bar",
-            GradientColors = "#4facfe 0%, #00f2fe 100%",
-            Technologies = new List<string> { "C++"},
-            BadgeColor = "primary"
-        },
-        new ProjectCard
-        {
-            Id = 3,
-            Title = "Placeholder",
-            Description = "Placeholder",
-            Icon = "fas fa-chart-bar",
-            GradientColors = "#4facfe 0%, #00f2fe 100%",
-            Technologies = new List<string> { "Placeholder", "Placeholder", "Placeholder" },
-            BadgeColor = "primary"
-        },
-        new ProjectCard
-        {
-            Id = 3,
-            Title = "Placeholder",
-            Description = "Placeholder",
-            Icon = "fas fa-chart-bar",
-            GradientColors = "#4facfe 0%, #00f2fe 100%",
-            Technologies = new List<string> { "Placeholder", "Placeholder", "Placeholder" },
-            BadgeColor = "primary"
-        },
-        new ProjectCard
-        {
-            Id = 3,
-            Title = "Placeholder",
-            Description = "Placeholder",
-            Icon = "fas fa-chart-bar",
-            GradientColors = "#4facfe 0%, #00f2fe 100%",
-            Technologies = new List<string> { "Placeholder", "Placeholder", "Placeholder" },
-            BadgeColor = "primary"
-        },        
-        new ProjectCard
-        {
-            Id = 3,
-            Title = "Placeholder",
-            Description = "Placeholder",
-            Icon = "fas fa-chart-bar",
-            GradientColors = "#4facfe 0%, #00f2fe 100%",
-            Technologies = new List<string> { "Placeholder", "Placeholder", "Placeholder" },
-            BadgeColor = "primary"
-        },
-        // Add more projects here in the future easily!
-    };
 }
 
-@* Intro *@
-<div class="intro-bg text-white vh-100 d-flex flex-column justify-content-center align-items-start">
-    <p class="intro-p">Hi :D</p>
-    <p class="intro-p">I am Austin!</p>
-    <p class="intro-p">I Learn, I Code, I Create</p>
-</div>
+@* Home page *@
+<div class="home text-white vh-100 d-flex flex-column justify-content-center align-items-center">
+    <p class="reveal delay-1">Hi :D</span>, I'm Austin!</p>
+    <p class="reveal delay-2 gradient-text">A Software Developer</p>
+    <p class="reveal delay-3">I Learn, I Code, I Create</p>
 
-@* Projects Carousel Section *@
-<div class="vh-100 d-flex align-items-center justify-content-center bg-dark">
-    <div class="container-fluid">
-        <div id="projectsCarousel" class="carousel slide multi-item-carousel" 
-             data-total-slides="@projects.Count" 
-             data-visible-slides="3">
-             
-            @* Dynamic Carousel Indicators *@
-            <div class="carousel-indicators">
-                @for (int i = 0; i < projects.Count; i++)
-                {
-                    <button type="button" 
-                            data-bs-target="#projectsCarousel" 
-                            data-bs-slide-to="@i" 
-                            class="@(i == 0 ? "active" : "")" 
-                            aria-current="@(i == 0 ? "true" : "false")" 
-                            aria-label="Slide @(i + 1)">
-                    </button>
-                }
-            </div>
+    @* Social links: GitHub and LinkedIn *@
+    <div class="reveal delay-4 home-social-media d-flex align-items-center mt-3">
+        <a href="https://github.com/AustinCKR" target="_blank" rel="noopener noreferrer"
+           class="text-white me-3" aria-label="GitHub profile" title="GitHub"
+           style="text-decoration:none; display:inline-flex; align-items:center;">
+            <i class="fab fa-github fa-3x" aria-hidden="true"></i>
+        </a>
 
-            @* Carousel Items *@
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="carousel-track">
-                        @* Add 3 duplicates at the beginning (last 3 projects) *@
-                        @for (int i = projects.Count - 3; i < projects.Count; i++)
-                        {
-                            @await Html.PartialAsync("_ProjectCard", projects[i])
-                        }
-                        
-                        @* Render all real project cards *@
-                        @foreach (var project in projects)
-                        {
-                            @await Html.PartialAsync("_ProjectCard", project)
-                        }
-                        
-                        @* Add 3 duplicates at the end (first 3 projects) *@
-                        @for (int i = 0; i < 3; i++)
-                        {
-                            @await Html.PartialAsync("_ProjectCard", projects[i])
-                        }
-                    </div>
-                </div>
-            </div>
+        <a href="https://www.linkedin.com/in/austin-chung-khai-rui-940b92267/" target="_blank" rel="noopener noreferrer"
+           class="text-white" aria-label="LinkedIn profile" title="LinkedIn"
+           style="text-decoration:none; display:inline-flex; align-items:center;">
+            <i class="fab fa-linkedin fa-3x" aria-hidden="true"></i>
+        </a>
+    </div>
 
-            @* Carousel Controls *@
-            <button class="carousel-control-prev" type="button">
-                <div class="carousel-control-prev-icon-custom">
-                    <i class="fas fa-chevron-left fa-2x text-white"></i>
-                </div>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button">
-                <div class="carousel-control-next-icon-custom">
-                    <i class="fas fa-chevron-right fa-2x text-white"></i>
-                </div>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
+    <div class="home-link reveal delay-5 d-flex">
+        <a class="text-white text-decoration-none" asp-area="" asp-controller="Home" asp-action="AboutMe">
+            Who am I
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+        <a class="text-white text-decoration-none" asp-area="" asp-controller="Home" asp-action="Projects">
+            What I did
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
     </div>
 </div>
-
-<div class="vh-100">
-    <h2>My asd</h2>
-
-</div>
-
-

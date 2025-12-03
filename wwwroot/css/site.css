@@ -1,21 +1,28 @@
+/*Color palette*/
+:root {
+    --color-gradient1: #7400b8ff;
+    --color-gradient2: #6930c3ff;
+    --color-gradient3: #5e60ceff;
+    --color-gradient4: #5390d9ff;
+    --color-gradient5: #4ea8deff;
+    --color-gradient6: #48bfe3ff;
+    --color-gradient7: #56cfe1ff;
+    --color-gradient8: #64dfdfff;
+    --color-gradient9: #72efddff;
+    --color-gradient10: #80ffdbff;
+}
+
+/*Remove overlay*/
+#dotnet-compile-error {
+    display: none !important;
+}
+
+/*Global*/
 html {
-    font-size: 14px;
-    background-color: black;
-    position: relative;
     min-height: 100%;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
 body {
-  background-color: black;
-}
-
-.intro-bg {
     background-image: url('/images/bg.jpg');
     background-size: cover;
     background-position: center;
@@ -23,408 +30,138 @@ body {
     background-attachment: fixed;
 }
 
-.intro-bg > * {
-    position: relative;
-    z-index: 2;
+
+/* Gradient text */
+.gradient-text {
+    display: inline-block; /* ensure background-clip + filter work correctly */
+    background-image: linear-gradient( 135deg, var(--color-gradient4) 0%, var(--color-gradient6) 40%, var(--color-gradient10) 100% );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
 }
 
-.intro-p {
-    position: relative;
-    left: 15%;
-    font-size: 3.25rem;
-    font-weight: bold;
+/*Text animation*/
+/* Gradient reveal animation for first-load */
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(8px); /* start blurred */
+    transition:
+        opacity 100ms cubic-bezier(.2,.9,.2,1),
+        transform 1s cubic-bezier(.2,.9,.2,1),
+        filter 700ms cubic-bezier(.2,.9,.2,1);
+    will-change: opacity, transform, filter;
 }
 
-/* Multi-Item Carousel Container - EXTERNAL ARROWS FOR 3 SLIDES */
-.multi-item-carousel {
-    position: relative;
-    overflow: visible; /* Allow arrows to be visible */
-    width: 100%; /* Use full width */
-    max-width: 1400px; /* Maximum container width */
-    margin: 0 auto; /* Center the carousel */
-    padding: 40px 120px; /* Padding for navigation arrows outside */
-}
-
-/* Inner carousel - this constrains the 3-card view */
-.carousel-inner {
-    overflow: hidden; /* Hide extra cards */
-    width: 1140px; /* Width for 3 cards: 350*3 + 30*2 = 1110px + padding */
-    margin: 0 auto; /* Center the 3-card viewport */
-    position: relative;
-}
-
-.carousel-track {
-    display: flex;
-    align-items: center;
-    transition: transform 0.6s ease-in-out;
-}
-
-.carousel-slide {
-    flex: 0 0 350px; /* Fixed width - no growing or shrinking */
-    margin: 0 15px; /* 30px total spacing between cards */
-    transition: all 0.4s ease;
-}
-
-/* Project Card Styles */
-.project-card {
-    width: 100%;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.4s ease;
-    opacity: 0.7;
-    transform: scale(0.85);
-    position: relative;
-    z-index: 1;
-}
-
-/* Active/Center card styling */
-.carousel-slide.active .project-card {
+/* When JS adds .show on load the element will drop into place and clear */
+.reveal.show {
     opacity: 1;
-    transform: scale(1);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
-    border-color: rgba(255, 255, 255, 0.4);
-    z-index: 10;
+    transform: translateY(0);
+    filter: blur(0);
 }
 
-/* Hover effects */
-.project-card:hover {
-    opacity: 1;
-    transform: scale(0.9);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
-    z-index: 5;
-}
+/* Optional utility for staggering via CSS classes */
+.reveal.delay-1 { transition-delay: 0ms; }
+.reveal.delay-2 { transition-delay: 250ms; }
+.reveal.delay-3 { transition-delay: 500ms; }
+.reveal.delay-4 { transition-delay: 750ms; }
+.reveal.delay-5 { transition-delay: 1000ms; }
 
-.carousel-slide.active .project-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9);
-}
-
-/* Card Content Styles */
-.project-card .card-img-top {
-    height: 200px;
-    flex-shrink: 0;
-}
-
-.project-card .card-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 1.25rem;
-}
-
-.project-card .card-title {
-    flex-shrink: 0;
-    margin-bottom: 1rem;
-    font-size: 1.25rem;
-}
-
-.project-card .card-text {
-    flex: 1;
-    margin-bottom: 1rem;
-    min-height: 80px;
-    font-size: 0.95rem;
-}
-
-.project-card .mb-3 {
-    flex-shrink: 0;
-    margin-bottom: 1rem !important;
-}
-
-.project-card .d-flex:last-child {
-    flex-shrink: 0;
-    margin-top: auto;
-}
-
-/* Navigation Controls - POSITIONED OUTSIDE THE CAROUSEL CONTAINER */
-.carousel-control-prev,
-.carousel-control-next {
-    width: 70px;
-    height: 70px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-    opacity: 1 !important;
-    z-index: 1000;
-    position: absolute;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-}
-
-.carousel-control-prev {
-    left: 20px; /* Positioned outside the carousel container */
-}
-
-.carousel-control-next {
-    right: 20px; /* Positioned outside the carousel container */
-}
-
-.carousel-control-prev:hover,
-.carousel-control-next:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.7);
-    transform: translateY(-50%) scale(1.1);
-}
-
-.carousel-control-prev-icon-custom,
-.carousel-control-next-icon-custom {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.carousel-control-prev-icon-custom i,
-.carousel-control-next-icon-custom i {
-    color: white !important;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    font-size: 1.8rem;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    display: none !important;
-}
-
-/* Carousel Indicators */
-.carousel-indicators {
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
-    z-index: 1001;
-}
-
-.carousel-indicators [data-bs-target] {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    background-color: transparent;
-    margin: 0 8px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.carousel-indicators .active {
-    background-color: white;
-    border-color: white;
-    transform: scale(1.2);
-}
-
-/* Navbar Styles - Add to your existing site.css */
-
-/* Make sure navbar starts transparent */
-#mainNavbar {
-    transition: all 0.3s ease-in-out;
-    border-bottom: 1px solid transparent;
-    backdrop-filter: none;
-    z-index: 1030;
-    /* Force transparent initially */
-    background-color: transparent !important;
-}
-
-/* Transparent state (at top of page) */
-#mainNavbar.navbar-transparent {
-    background-color: transparent !important;
-    backdrop-filter: none;
-    border-bottom-color: transparent;
-}
-
-/* Navbar brand and links styling for better visibility */
-#mainNavbar .navbar-brand {
-    font-weight: bold;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
-    color: white !important; /* Force white color */
-}
-
-#mainNavbar .nav-link {
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
-    color: white !important; /* Force white color */
-    background-color: transparent;
-    border-radius: 4px; /* Add slight border radius for better look */
-    padding: 8px 12px; /* Add padding for better hover area */
-}
-
-/* ADDED: Hover effect for nav-links - white background with black text */
-#mainNavbar .nav-link:hover,
-#mainNavbar .nav-link:focus {
-    background-color: rgba(255, 255, 255, 0.9) !important; /* White background */
-    color: black !important; /* Black text */
-    text-shadow: none; /* Remove text shadow on hover */
-}
-
-/* ADDED: Hover effect for dropdown toggle specifically */
-#mainNavbar .dropdown-toggle {
-    color: white !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
-    background-color: transparent;
-    border-radius: 4px;
-    padding: 8px 12px;
-}
-
-#mainNavbar .dropdown-toggle:hover,
-#mainNavbar .dropdown-toggle:focus,
-#mainNavbar .dropdown-toggle.show {
-    background-color: rgba(255, 255, 255, 0.9) !important;
-    color: black !important;
-    text-shadow: none;
-}
-
-/* Scrolled state (with blur) */
-#mainNavbar.navbar-scrolled {
-    background-color: rgba(0, 0, 0, 0.4) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); /* Safari support */
-    border-bottom-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Dropdown menu styling */
-#mainNavbar .dropdown-menu {
-    background-color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* ADDED: Force dropdown items to be white by default */
-#mainNavbar .dropdown-item {
-    color: rgba(255, 255, 255, 0.8) !important;
-    background-color: transparent;
-    transition: all 0.3s ease; /* Add smooth transition */
-}
-
-/* UPDATED: Hover effect - white background with black text */
-#mainNavbar .dropdown-item:hover {
-    background-color: rgba(255, 255, 255, 0.9) !important; /* White background */
-    color: black !important; /* Black text */
-}
-
-/* Optional: Add a subtle gradient overlay for better text readability */
-#mainNavbar.navbar-transparent::before {
-    content: '';
-    position: absolute;
+/*Nav bar*/
+.navbar {
+    font-size: 1.1rem;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: -1;
+    transition: background-color 280ms ease, backdrop-filter 280ms ease, box-shadow 280ms ease;
+    z-index: 1030; /* keep above content */
 }
 
-/* Responsive Design */
-@media (max-width: 1400px) {
-    .carousel-inner {
-        width: 1080px; /* Slightly smaller for smaller screens */
-    }
+.nav-item {
+    border-radius: 5px;
+    transition: ease 0.2s;
 }
 
-@media (max-width: 1200px) {
-    .carousel-inner {
-        width: 1020px; /* 3 cards × 320px + margins */
-    }
-    
-    .carousel-slide {
-        flex-basis: 320px;
-    }
-    
-    .project-card {
-        height: 480px;
-    }
+.nav-item:hover {
+    transition: ease 0.2s;
+    background-color: rgba(127,127,127, 0.5);
 }
 
-@media (max-width: 992px) {
-    .carousel-inner {
-        width: 960px; /* 3 cards × 300px + margins */
-    }
-    
-    .carousel-slide {
-        flex-basis: 300px;
-    }
-    
-    .project-card {
-        height: 450px;
-    }
-    
-    .project-card .card-img-top {
-        height: 180px;
-    }
+.dropdown-menu {
+    font-size: 1rem;
 }
 
-@media (max-width: 768px) {
-    .multi-item-carousel {
-        padding: 40px 80px;
-    }
-    
-    .carousel-inner {
-        width: 90%;
-        max-width: 400px;
-    }
-    
-    .carousel-control-prev {
-        left: 10px;
-    }
-    
-    .carousel-control-next {
-        right: 10px;
-    }
-    
-    .carousel-control-prev,
-    .carousel-control-next {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .carousel-slide {
-        flex-basis: 100%;
-        margin: 0;
-    }
-    
-    .project-card {
-        height: 400px;
-        transform: scale(1) !important;
-        opacity: 1 !important;
-    }
+.dropdown-item {
+    transition: ease 0.2s;
 }
 
-@media (max-width: 576px) {
-    .multi-item-carousel {
-        padding: 40px 60px;
+    .dropdown-item:hover {
+        transition: ease 0.2s;
+        background-color: rgba(127,127,127, 0.5);
     }
-    
-    .carousel-control-prev {
-        left: 5px;
-    }
-    
-    .carousel-control-next {
-        right: 5px;
-    }
-    
-    .carousel-control-prev,
-    .carousel-control-next {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .project-card {
-        height: 350px;
-    }
-    
-    .project-card .card-img-top {
-        height: 150px;
-    }
+
+/* Navbar dropdown: frosted / blurred background (placed near navbar rules) */
+nav#mainNavbar .dropdown-menu {
+    background-color: rgba(0, 0, 0, 0.38) !important; /* semi-transparent fallback */
+    -webkit-backdrop-filter: blur(8px) !important; /* Safari/WebKit */
+    backdrop-filter: blur(6px) !important; /* modern browsers */
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    /* keep layout & stacking correct */
+    z-index: 1050 !important;
+    background-clip: padding-box;
+}
+
+/* initial transparent state */
+nav.navbar.navbar-transparent {
+    background-color: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+}
+
+/* scrolled state: semi-transparent + blur + subtle shadow */
+nav.navbar.navbar-scrolled {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+/*Home page*/
+.home > p {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.home-social-media{
+    gap: 25px;
+}
+
+.home-social-media > a {
+    transition: ease 0.2s;
+}
+
+.home-social-media > a:hover {
+    transition: ease 0.2s;
+    transform: translateY(-5px);
+}
+
+.home-link {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 100px;
+    gap: 100px;
+}
+
+.home-link > a {
+    transition: ease 0.2s;
+}
+
+.home-link > a:hover {
+    transition: ease 0.2s;
+    transform: translateY(-5px);
 }

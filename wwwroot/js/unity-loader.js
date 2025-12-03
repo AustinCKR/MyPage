@@ -5,12 +5,13 @@
 class UnityGameLoader {
     constructor(config) {
         this.gameName = config.gameName;
-        this.gameBasePath = config.gameBasePath || `/games/${this.gameName}`;
-        this.buildBaseName = config.buildBaseName || 'WebGLBuilds';
+        this.gameBasePath = `/games/${this.gameName}`;
+        this.buildBaseName = config.buildBaseName;
         this.canvasSelector = config.canvasSelector || '#unity-canvas';
         this.containerSelector = config.containerSelector || '#unity-container';
-        this.companyName = config.companyName || 'DefaultCompany';
-        this.productVersion = config.productVersion || '1.0.0';
+        this.companyName = config.companyName;
+        this.productVersion = config.productVersion;
+        this.compressionFormat = config.compressionFormat;
         
         this.canvas = document.querySelector(this.canvasSelector);
         this.container = document.querySelector(this.containerSelector);
@@ -82,12 +83,16 @@ class UnityGameLoader {
 
         console.log('Loading Unity game from:', loaderUrl);
         console.log('Build URL:', buildUrl);
+        console.log('Compression format:', this.compressionFormat);
 
+        // FIXED: Use dynamic file extension based on compression format
+        const ext = this.compressionFormat === 'gz' ? 'gz' : 'br';
+        
         const config = {
             arguments: [],
-            dataUrl: `${buildUrl}/${this.buildBaseName}.data.gz`,
-            frameworkUrl: `${buildUrl}/${this.buildBaseName}.framework.js.gz`,
-            codeUrl: `${buildUrl}/${this.buildBaseName}.wasm.gz`,
+            dataUrl: `${buildUrl}/${this.buildBaseName}.data.${ext}`,
+            frameworkUrl: `${buildUrl}/${this.buildBaseName}.framework.js.${ext}`,
+            codeUrl: `${buildUrl}/${this.buildBaseName}.wasm.${ext}`,
             streamingAssetsUrl: `${this.gameBasePath}/StreamingAssets`,
             companyName: this.companyName,
             productName: this.gameName,

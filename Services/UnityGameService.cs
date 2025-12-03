@@ -21,18 +21,20 @@ namespace MyPage.Services
                 BuildBaseName = "WebGLBuilds",
                 CompanyName = "DefaultCompany",
                 ProductVersion = "1.0.0",
+                CompressionFormat = "gz",
                 CanvasWidth = 960,
                 CanvasHeight = 600,
                 IsActive = true
             },
             new UnityGameConfig
             {
-                GameName = "PokemonSurvivor",
-                DisplayName = "Pokemon Survivor",
-                Description = "A rogue-like game inspired by Vampire Survivor",
-                BuildBaseName = "WebGLBuilds",
+                GameName = "MyProject",
+                DisplayName = "MyProject",
+                Description = "A simple parkour game",
+                BuildBaseName = "MyProject",
                 CompanyName = "DefaultCompany",
                 ProductVersion = "1.0.0",
+                CompressionFormat = "br",
                 CanvasWidth = 1280,
                 CanvasHeight = 720,
                 IsActive = true

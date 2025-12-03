@@ -1,17 +1,21 @@
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using MyPage.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<MyPageContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MyPageContext") ?? throw new InvalidOperationException("Connection string 'MyPageContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews()
-    .AddRazorRuntimeCompilation(); // Enable hot reload for MVC views
+    .AddRazorRuntimeCompilation();
 
 // Add Unity game service
 builder.Services.AddSingleton<MyPage.Services.IUnityGameService, MyPage.Services.UnityGameService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -20,15 +24,16 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Configure static files to serve Unity WebGL files correctly
+// Configure static files for Unity WebGL
 var provider = new FileExtensionContentTypeProvider();
 
-// Add MIME types for Unity WebGL files (uncompressed)
+// MIME types
 provider.Mappings[".data"] = "application/octet-stream";
 provider.Mappings[".wasm"] = "application/wasm";
-provider.Mappings[".symbols.json"] = "application/octet-stream";
-provider.Mappings[".json"] = "application/json";
 provider.Mappings[".js"] = "application/javascript";
+provider.Mappings[".json"] = "application/json";
+provider.Mappings[".br"] = "application/octet-stream";
+provider.Mappings[".gz"] = "application/octet-stream";
 
 app.UseStaticFiles(new StaticFileOptions
 {
@@ -38,70 +43,63 @@ app.UseStaticFiles(new StaticFileOptions
         var requestPath = ctx.Context.Request.Path.Value?.ToLower() ?? "";
         var fileName = Path.GetFileName(requestPath);
 
-        // Handle gzip compressed files
-        if (requestPath.EndsWith(".gz"))
+        // Brotli files - .br extension
+        if (requestPath.EndsWith(".br"))
         {
-            // Set correct Content-Type based on the full filename BEFORE adding Content-Encoding
-            if (fileName.EndsWith(".wasm.gz"))
+            // Set Content-Type based on actual file type
+            if (fileName.Contains(".wasm.br"))
             {
                 ctx.Context.Response.ContentType = "application/wasm";
             }
-            else if (fileName.EndsWith(".js.gz") || fileName.EndsWith(".loader.js.gz"))
+            else if (fileName.Contains(".js.br") || fileName.Contains(".framework"))
             {
                 ctx.Context.Response.ContentType = "application/javascript";
             }
-            else if (fileName.EndsWith(".data.gz"))
-            {
-                ctx.Context.Response.ContentType = "application/octet-stream";
-            }
-            else if (fileName.EndsWith(".symbols.json.gz"))
+            else if (fileName.Contains(".data.br"))
             {
                 ctx.Context.Response.ContentType = "application/octet-stream";
             }
 
-            // Add Content-Encoding header
-            ctx.Context.Response.Headers.Append("Content-Encoding", "gzip");
-
-            // Debug logging
-            if (app.Environment.IsDevelopment() && fileName.EndsWith(".wasm.gz"))
+            // CRITICAL: Tell browser the content is Brotli compressed
+            ctx.Context.Response.Headers.Append("Content-Encoding", "br");
+            
+            // Debug log
+            if (app.Environment.IsDevelopment())
             {
                 var logger = ctx.Context.RequestServices.GetRequiredService<ILogger<Program>>();
-                logger.LogInformation("Serving {FileName}: Content-Type={ContentType}, Content-Encoding={Encoding}",
+                logger.LogInformation("Serving .br file: {FileName}, Content-Type: {ContentType}, Content-Encoding: br",
                     fileName,
-                    ctx.Context.Response.ContentType,
-                    ctx.Context.Response.Headers["Content-Encoding"].ToString());
+                    ctx.Context.Response.ContentType);
             }
         }
-
-        // Handle Brotli compressed files
-        else if (requestPath.EndsWith(".br"))
+        // Gzip files - .gz extension
+        else if (requestPath.EndsWith(".gz"))
         {
-            if (fileName.EndsWith(".wasm.br"))
+            if (fileName.Contains(".wasm.gz"))
             {
                 ctx.Context.Response.ContentType = "application/wasm";
             }
-            else if (fileName.EndsWith(".js.br"))
+            else if (fileName.Contains(".js.gz") || fileName.Contains(".framework"))
             {
                 ctx.Context.Response.ContentType = "application/javascript";
             }
-            else if (fileName.EndsWith(".data.br"))
+            else if (fileName.Contains(".data.gz"))
             {
                 ctx.Context.Response.ContentType = "application/octet-stream";
             }
 
-            ctx.Context.Response.Headers.Append("Content-Encoding", "br");
+            ctx.Context.Response.Headers.Append("Content-Encoding", "gzip");
         }
 
-        // Add caching for Unity build files (improves performance)
+        // Cache headers for games
         if (requestPath.Contains("/build/") || requestPath.Contains("/games/"))
         {
-            ctx.Context.Response.Headers.Append("Cache-Control", "public, max-age=31536000");
+            ctx.Context.Response.Headers.Append("Cache-Control", "public, max-age=31536000, immutable");
         }
     }
 });
 
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(

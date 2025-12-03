@@ -8,9 +8,7 @@ namespace MyPage.Controllers
         private readonly ILogger<PlaygroundController> _logger;
         private readonly IUnityGameService _unityGameService;
 
-        public PlaygroundController(
-            ILogger<PlaygroundController> logger,
-            IUnityGameService unityGameService)
+        public PlaygroundController(ILogger<PlaygroundController> logger, IUnityGameService unityGameService)
         {
             _logger = logger;
             _unityGameService = unityGameService;
@@ -24,11 +22,6 @@ namespace MyPage.Controllers
 
         public IActionResult UnityGame(string gameName)
         {
-            if (string.IsNullOrWhiteSpace(gameName))
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
             var gameConfig = _unityGameService.GetGameByName(gameName);
             
             if (gameConfig == null)

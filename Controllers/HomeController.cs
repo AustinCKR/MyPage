@@ -18,7 +18,17 @@ namespace MyPage.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult AboutMe()
+        {
+            return View();
+        }
+
+        public IActionResult Projects()
+        {
+            return View();
+        }
+
+        public IActionResult Credit()
         {
             return View();
         }
