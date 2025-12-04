@@ -1,3 +1,111 @@
 ﻿@{
     ViewData["Title"] = "About Me";
 }
+
+<div class="abt-me-div">
+    <p class="abt-me-h1 title-reveal"><span class="title-part">About</span> <span class="title-part gradient-text">Me</span></p>
+    <div class="d-flex mt-5">
+        <div class="profile-pic-div d-flex flex-column reveal-fast">
+            <img src="~/images/me.jpg" alt="Profile Picture" class="abt-me-profile-pic" />
+            <a class="abt-me-resume-link"
+               href="~/documents/Austin_Chung_Resume.pdf"
+               download="Austin_Chung_Resume.pdf">
+                Download my resume
+            </a>
+        </div>
+        <div>
+            <p class="reveal-fast">Hi :D! I'm Austin!</p>
+            <p class="reveal-fast">I'm a Computer Science fresh graduate from Swinburne University of Technology Sarawak Campus.</p>
+            <p class="reveal-fast">I love learning, coding, and creating things, no matter it's web, software, or games! I enjoy building my own projects while learning new skills along the way.</p>
+            <p class="reveal-fast">My dream is to create a game that I’ll be addicted to.</p>
+
+            <div class="reveal-fast">
+                <div class="d-flex mt-5">
+                    <div class="abt-me-skill-div">
+                        <p class="mb-2">Front-end</p>
+                        <div class="d-flex gap-3">
+                            <span class="skill-straigt-line"></span>
+                            <span class="skill-img-wrapper" data-tooltip="HTML"><img class="skill-img" src="~/images/html.png" alt="html" /></span>
+                            <span class="skill-img-wrapper" data-tooltip="CSS"><img class="skill-img" src="~/images/css.png" alt="css" /></span>
+                            <span class="skill-img-wrapper" data-tooltip="JavaScript"><img class="skill-img" src="~/images/js.png" alt="js" /></span>
+                            <span class="skill-img-wrapper" data-tooltip="Tailwind CSS"><img class="skill-img" src="~/images/tailwindcss.png" alt="tailwindcss" /></span>
+                            <span class="skill-img-wrapper" data-tooltip="Bootstrap"><img class="skill-img" src="~/images/bootstrap.png" alt="bootstrap" /></span>
+                            <span class="skill-img-wrapper" data-tooltip="React JS"><img class="skill-img" src="~/images/reactjs.png" alt="reactjs" /></span>
+                            <span class="skill-img-wrapper" data-tooltip="React Native"><img class="skill-img" src="~/images/reactjs.png" alt="reactnative" /></span>
+                        </div>
+                    </div>
+                    <div class="abt-me-skill-div">
+                        <p class="mb-2">Back-end</p>
+                        <div class="d-flex gap-3">
+                            <span class="skill-straigt-line"></span>
+                            <span class="skill-img-wrapper" data-tooltip="PHP"><img class="skill-img" src="~/images/php.png" alt="php" /></span>
+                            <span class="skill-img-wrapper" data-tooltip="Laravel"><img class="skill-img" src="~/images/laravel.png" alt="laravel" /></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex mt-5">
+                    <div class="abt-me-skill-div">
+                        <p class="mb-2">Programming Languages</p>
+                        <div class="d-flex gap-3">
+                            <span class="skill-straigt-line"></span>
+                            <span class="skill-img-wrapper" data-tooltip="Python"><img class="skill-img" src="~/images/python.png" alt="python" /></span>
+                            <span class="skill-img-wrapper" data-tooltip="C#"><img class="skill-img" src="~/images/csharp.png" alt="c#" /></span>
+                            <span class="skill-img-wrapper" data-tooltip="C++"><img class="skill-img" src="~/images/c++.png" alt="c++" /></span>
+                            <span class="skill-img-wrapper" data-tooltip="Kotlin"><img class="skill-img" src="~/images/kotlin.png" alt="kotlin" /></span>
+                            <span class="skill-img-wrapper" data-tooltip="Java"><img class="skill-img" src="~/images/java.png" alt="java" /></span>
+                            <span class="skill-img-wrapper" data-tooltip="SQL"><img class="skill-img" src="~/images/sql.png" alt="sql" /></span>
+                        </div>
+                        <p></p>
+                    </div>
+                    <div class="abt-me-skill-div">
+                        <p class="mb-2">Tools</p>
+                        <div class="d-flex gap-3">
+                            <span class="skill-straigt-line"></span>
+                            <span class="skill-img-wrapper" data-tooltip="Git"><img class="skill-img" src="~/images/git.png" alt="git" /></span>
+                            <span class="skill-img-wrapper" data-tooltip="GitHub"><img class="skill-img" src="~/images/github.png" alt="github" /></span>
+                            <span class="skill-img-wrapper" data-tooltip="Figma"><img class="skill-img" src="~/images/figma.png" alt="figma" /></span>
+                            <span class="skill-img-wrapper" data-tooltip="draw.io"><img class="skill-img" src="~/images/drawio.png" alt="drawio" /></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Horizontal education timeline -->
+    <div class="abt-me-edu-div" aria-labelledby="education-heading">
+        <h2 class="fs-1 fw-bold title-reveal"><span class="title-part">Education</span></h2>
+        <span class="edu-timeline-horizontal-line reveal-fast"></span>
+        <div class="edu-timeline d-flex justify-content-between">
+            <div class="edu-timeline-node">
+                <span class="edu-timeline-circle reveal-fast"></span>
+                <div class="edu-timeline-content reveal-fast">
+                    <p class="gradient-text2 fw-bold">SMK</p>
+                    <p class="gradient-text2 fw-bold d-block">Sungai Maong</p>
+                    <p class="edu-timeline-detail mt-2">High School</p>
+                    <p class="edu-timeline-detail">2016-2020</p>
+                </div>
+            </div>
+            <div class="edu-timeline-node">
+                <span class="edu-timeline-circle reveal-fast"></span>
+                <div class="edu-timeline-content reveal-fast">
+                    <p class="gradient-text2 fw-bold">Swinburne</p>
+                    <p class="gradient-text2 fw-bold">University of Technology</p>
+                    <p class="gradient-text2 fw-bold">Sarawak Campus</p>
+                    <p class="edu-timeline-detail mt-2">Foundation in Information Technology</p>
+                    <p class="edu-timeline-detail">2021-2022</p>
+                </div>
+            </div>
+            <div class="edu-timeline-node">
+                <span class="edu-timeline-circle reveal-fast"></span>
+                <div class="edu-timeline-content reveal-fast">
+                    <p class="gradient-text2 fw-bold">Swinburne</p>
+                    <p class="gradient-text2 fw-bold">University of Technology</p>
+                    <p class="gradient-text2 fw-bold">Sarawak Campus</p>
+                    <p class="edu-timeline-detail mt-2">Bachelor of Computer Science</p>
+                    <p class="edu-timeline-detail">2022-2025</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-/*Color palette*/
+﻿/*----------Color palette----------*/
 :root {
     --color-gradient1: #7400b8ff;
     --color-gradient2: #6930c3ff;
@@ -12,12 +12,18 @@
     --color-gradient10: #80ffdbff;
 }
 
-/*Remove overlay*/
+/*----------Remove overlay----------*/
 #dotnet-compile-error {
     display: none !important;
 }
 
-/*Global*/
+/*----------Global----------*/
+* {
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
 html {
     min-height: 100%;
 }
@@ -30,8 +36,12 @@ body {
     background-attachment: fixed;
 }
 
+p {
+    margin: 0;
+}
 
-/* Gradient text */
+
+/*----------Gradient text----------*/
 .gradient-text {
     display: inline-block; /* ensure background-clip + filter work correctly */
     background-image: linear-gradient( 135deg, var(--color-gradient4) 0%, var(--color-gradient6) 40%, var(--color-gradient10) 100% );
@@ -42,34 +52,153 @@ body {
     color: transparent;
 }
 
+.gradient-text2 {
+    display: inline-block; /* ensure background-clip + filter work correctly */
+    background-image: linear-gradient( 135deg, var(--color-gradient4) 0%, var(--color-gradient6) 40%, var(--color-gradient8) 100% );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
 /*Text animation*/
 /* Gradient reveal animation for first-load */
-.reveal {
+.reveal,
+.reveal-fast{
     opacity: 0;
     transform: translateY(24px);
     filter: blur(8px); /* start blurred */
-    transition:
-        opacity 100ms cubic-bezier(.2,.9,.2,1),
-        transform 1s cubic-bezier(.2,.9,.2,1),
-        filter 700ms cubic-bezier(.2,.9,.2,1);
+    transition: opacity 100ms cubic-bezier(.2,.9,.2,1), transform 1s cubic-bezier(.2,.9,.2,1), filter 700ms cubic-bezier(.2,.9,.2,1);
     will-change: opacity, transform, filter;
 }
 
 /* When JS adds .show on load the element will drop into place and clear */
-.reveal.show {
+.reveal.show,
+.reveal-fast.show{
     opacity: 1;
     transform: translateY(0);
     filter: blur(0);
 }
 
-/* Optional utility for staggering via CSS classes */
-.reveal.delay-1 { transition-delay: 0ms; }
-.reveal.delay-2 { transition-delay: 250ms; }
-.reveal.delay-3 { transition-delay: 500ms; }
-.reveal.delay-4 { transition-delay: 750ms; }
-.reveal.delay-5 { transition-delay: 1000ms; }
+/* Title reveal animation with rectangle placeholder */
+.title-reveal {
+    position: relative;
+    display: inline-block;
+    opacity: 0;
+}
 
-/*Nav bar*/
+/* Rectangle placeholder that appears first */
+.title-reveal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--color-gradient4) 0%, var(--color-gradient6) 40%, var(--color-gradient8) 100%);
+    opacity: 0.7;
+    transform-origin: right center;
+    transform: scaleX(1);
+    z-index: 1;
+}
+
+/* Initial state: hide text */
+.title-reveal > * {
+    opacity: 0;
+}
+
+/* Stage 1: Show rectangle placeholder */
+.title-reveal.stage-1 {
+    opacity: 1;
+}
+
+.title-reveal.stage-1::before {
+    transform: scaleX(1);
+}
+
+/* Stage 2: Shrink rectangle to the right */
+.title-reveal.stage-2::before {
+    transform: scaleX(0);
+    transition: transform 600ms cubic-bezier(.2,.9,.2,1);
+}
+
+/* Stage 3: Reveal text with fade and slight movement */
+.title-reveal.stage-3 > * {
+    opacity: 1;
+    animation: titleTextReveal 800ms cubic-bezier(.2,.9,.2,1) forwards;
+}
+
+@keyframes titleTextReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+        filter: blur(4px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+/* ---------- Skill "portal" animation styles ---------- */
+/* Keep the existing visual thin line but hide initially (draw via scaleX) */
+/* NOTE: class name preserved from markup: skill-straigt-line (misspelling) */
+.skill-straigt-line {
+    width: 3px;
+    background-image: linear-gradient( 135deg, var(--color-gradient4) 0%, var(--color-gradient5) 40%, var(--color-gradient6) 100% );
+    margin: 0;
+    display: inline-block;
+    vertical-align: middle;
+    height: 50px;
+    transform-origin: center;
+    transform: scaleX(0);
+    transition: transform 420ms cubic-bezier(.2,.9,.2,1), opacity 280ms ease;
+    opacity: 0;
+}
+
+/* Applied by JS to draw the line */
+.skill-straigt-line.line-draw {
+    transform: scaleX(1);
+    opacity: 1;
+}
+
+/* Skill icons start hidden and positioned visually at the line location using CSS vars set from JS.
+   They then animate to their natural positions via the .pop-in class. */
+.skill-img-wrapper {
+    position: relative; /* keep layout but animate with transform */
+    opacity: 0;
+    transform: translate(var(--from-x, 0px), var(--from-y, 0px)) scale(.6);
+    transition: transform 560ms cubic-bezier(.2,.9,.2,1), opacity 360ms cubic-bezier(.2,.9,.2,1);
+    will-change: transform, opacity;
+    /* maintain original appearance */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Visible / final state */
+.skill-img-wrapper.pop-in {
+    opacity: 1;
+    transform: translate(0px, 0px) scale(1);
+}
+
+/* Add a small ease/overshoot to make the portal effect more organic */
+.skill-img-wrapper.pop-in::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    /* subtle glow on entry */
+    box-shadow: 0 6px 18px rgba(78,168,222,0.12);
+    pointer-events: none;
+}
+
+/* ---------- end skill portal styles ---------- */
+
+
+/*----------Nav bar----------*/
 .navbar {
     font-size: 1.1rem;
     position: fixed;
@@ -85,22 +214,16 @@ body {
     transition: ease 0.2s;
 }
 
-.nav-item:hover {
-    transition: ease 0.2s;
-    background-color: rgba(127,127,127, 0.5);
-}
-
 .dropdown-menu {
     font-size: 1rem;
 }
 
 .dropdown-item {
-    transition: ease 0.2s;
+    margin-top: 4px;
 }
 
-    .dropdown-item:hover {
-        transition: ease 0.2s;
-        background-color: rgba(127,127,127, 0.5);
+.dropdown-item:hover {
+        background-color: transparent;
     }
 
 /* Navbar dropdown: frosted / blurred background (placed near navbar rules) */
@@ -131,13 +254,60 @@ nav.navbar.navbar-scrolled {
     -webkit-backdrop-filter: blur(6px);
 }
 
-/*Home page*/
+/*----------Animated underline----------*/
+.underline-animate,
+.nav-link,
+.home-link,
+.dropdown-item {
+    position: relative;
+    display: inline-block; /* ensure pseudo-element matches text width */
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* the line */
+.underline-animate::after,
+.nav-link::after,
+.home-link::after,
+.dropdown-item::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px; /* adjust distance from text */
+    height: 2px; /* line thickness */
+    width: 100%;
+    background: linear-gradient(90deg, var(--color-gradient4), var(--color-gradient6));
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 320ms cubic-bezier(.2,.9,.2,1);
+    will-change: transform, opacity;
+    pointer-events: none;
+}
+
+/* animate on hover or keyboard focus */
+.underline-animate:hover::after,
+.underline-animate:focus-visible::after,
+.nav-link:hover::after,
+.nav-link:focus-visible::after,
+.home-link:hover::after,
+.home-link:focus-visible::after,
+.dropdown-item:hover::after,
+.dropdown-item:focus-visible::after {
+    transform: scaleX(1);
+}
+
+/* While dropdown is open, hide underline on the toggle to avoid leaving it visible */
+nav#mainNavbar .dropdown.show > .dropdown-toggle::after,
+nav#mainNavbar .dropdown.show .dropdown-toggle::after {
+    transform: scaleX(0) !important;
+}
+
+/*----------Home page----------*/
 .home > p {
     font-size: 3rem;
     font-weight: bold;
 }
 
-.home-social-media{
+.home-social-media {
     gap: 25px;
 }
 
@@ -150,18 +320,242 @@ nav.navbar.navbar-scrolled {
     transform: translateY(-5px);
 }
 
-.home-link {
+.home-link-div {
     font-size: 1.5rem;
     font-weight: bold;
     margin-top: 100px;
     gap: 100px;
 }
 
-.home-link > a {
+.home-link {
     transition: ease 0.2s;
 }
 
-.home-link > a:hover {
+.home-link:hover {
     transition: ease 0.2s;
-    transform: translateY(-5px);
+}
+
+.home-link > i {
+    opacity: 0;
+    position: absolute;
+    transform: translateX(-10px);
+    transition: opacity 100ms cubic-bezier(.2,.9,.2,1), transform 1s cubic-bezier(.2,.9,.2,1), filter 700ms cubic-bezier(.2,.9,.2,1);
+    will-change: display, opacity, transform, filter;
+}
+
+.home-link-icon-animation {
+    opacity: 1 !important;
+    transform: translate(10px, -6px) rotate(45deg) !important;
+    filter: blur(0) !important;
+}
+
+/*----------About me----------*/
+.abt-me-div {
+    margin: 80px auto 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+    width: 1300px;
+}
+
+.abt-me-h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+}
+
+.abt-me-profile-pic {
+    height: 400px;
+    width: 250px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.abt-me-resume-link {
+    text-decoration: none;
+    font-weight: 500;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border: solid 1px white;
+    border-radius: 8px;
+    margin-top: 20px;
+    background-color: rgba(127,127,127,0.2);
+}
+
+.abt-me-resume-link:hover {
+    background-color: rgba(127,127,127,0.4);
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
+
+.profile-pic-div {
+    margin-right: 40px;
+}
+
+.abt-me-skill-div {
+    flex: 1;
+}
+
+.skill-img-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    background-color: rgba(255,255,255,0.1);
+    border: solid 1px rgba(255,255,255,0.1);
+    max-width: none;
+    border-radius: 10px;
+}
+
+.skill-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/*Skill tooltip*/
+.skill-img-wrapper::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px) scale(.98);
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 160ms ease, transform 160ms ease;
+    z-index: 2000;
+}
+
+/* small arrow */
+.skill-img-wrapper::before {
+    content: "";
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg) scale(.98);
+    width: 10px;
+    height: 10px;
+    background: rgba(0,0,0,0.85);
+    opacity: 0;
+    transition: opacity 160ms ease, transform 160ms ease;
+    z-index: 2000;
+}
+
+/* visible states: hover, focus-within, or explicit class from JS */
+.skill-img-wrapper:hover::after,
+.skill-img-wrapper:focus-within::after,
+.skill-img-wrapper.tooltip-visible::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.skill-img-wrapper:hover::before,
+.skill-img-wrapper:focus-within::before,
+.skill-img-wrapper.tooltip-visible::before {
+    opacity: 1;
+    transform: translateX(-50%) rotate(45deg) scale(1);
+}
+
+/*Timeline*/
+.abt-me-edu-div {
+    margin-top: 70px;
+}
+
+.edu-timeline-node {
+    flex: 1;
+    text-align: center;
+    max-width: 400px;
+    height: 300px;
+}
+
+.edu-timeline-content {
+    margin: 0 50px;
+    height: 220px;
+}
+
+.edu-timeline-detail {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.edu-timeline-horizontal-line {
+    display: inline-block;
+    width: 90%;
+    height: 6px;
+    position: relative;
+    top: 25px;
+    left: 5%;
+    border-radius: 100px;
+    background-image: linear-gradient(135deg, var(--color-gradient4, #00c6ff) 0%, var(--color-gradient5, #0072ff) 40%, var(--color-gradient6, #0000ff) 100%);
+    z-index: 3;
+}
+
+.edu-timeline-circle {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-image: linear-gradient(135deg, var(--color-gradient4, #00c6ff) 0%, var(--color-gradient5, #0072ff) 40%, var(--color-gradient6, #0000ff) 100%);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+    vertical-align: middle;
+    margin-bottom: 45px;
+    z-index: 3;
+}
+
+/* Halo */
+.edu-timeline-circle::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180%;
+    height: 180%;
+    border-radius: 50%;
+    background: inherit;
+    filter: blur(10px);
+    opacity: 0.7;
+    z-index: -1;
+}
+
+/* Spotlight / triangular lamp under the node (soft fade from strong → weak) */
+.edu-timeline-circle::after {
+    content: "";
+    position: absolute;
+    top: 0px; /* start immediately below the circle */
+    transform: translateX(-50%) translateY(6px);
+    width: 500px;           /* cone base width (adjust) */
+    height: 250px;          /* cone length (adjust) */
+    pointer-events: none;
+    z-index: 1;             /* behind the circle but above page bg */
+
+    /* triangle shape + vertical gradient from strong to weak */
+    background: linear-gradient(
+        to bottom,
+        rgba(72,191,227,0.40) 0%,    /* strong at top */
+        rgba(72,191,227,0.13) 15%,
+        rgba(72,191,227,0.08) 25%,
+        rgba(72,191,227,0.04) 35%,
+        rgba(72,191,227,0.01) 55%,
+        transparent 100%             /* fade to transparent at base */
+    );
+
+    /* cut to triangle */
+    clip-path: polygon(50% 0%, 0% 60%, 100% 60%);
+
+    /* soften edges */
+    filter: blur(18px);
+    opacity: 1;
 }
