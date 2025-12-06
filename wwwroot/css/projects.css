@@ -70,6 +70,10 @@
     background-color: rgba(20,20,20);
 }
 
+.project-button {
+    cursor: pointer;
+}
+
 .project-button-disabled {
     background-color: rgba(50,50,50);
 }
@@ -91,4 +95,3 @@
 .project-button-youtube {
     background-color: rgb(255,0,0);
 }
-

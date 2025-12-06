@@ -40,7 +40,6 @@ p {
     margin: 0;
 }
 
-
 /*----------Gradient text----------*/
 .gradient-text {
     display: inline-block; /* ensure background-clip + filter work correctly */
@@ -78,8 +77,8 @@ p {
     background-image: linear-gradient( 
         135deg, 
         var(--color-gradient6) 0%, 
-        var(--color-gradient8) 40%, 
-        var(--color-gradient9) 100% 
+        var(--color-gradient9) 40%, 
+        var(--color-gradient10) 100% 
     );
     -webkit-background-clip: text;
     background-clip: text -webkit-text-fill-color: transparent;
@@ -89,98 +88,7 @@ p {
 
 .gradient-text3:hover {
     display: inline; /* ensure background-clip + filter work correctly */
-    background-image: linear-gradient( 
-        135deg, 
-        var(--color-gradient3) 0%, 
-        var(--color-gradient5) 40%, 
-        var(--color-gradient6) 100% 
-    );
-    -webkit-background-clip: text;
-    background-clip: text -webkit-text-fill-color: transparent;
     color: transparent;
-}
-
-/*Text animation*/
-/* Gradient reveal animation for first-load */
-.reveal,
-.reveal-fast,
-.reveal-faster {
-    opacity: 0;
-    transform: translateY(24px);
-    filter: blur(8px); /* start blurred */
-    transition: opacity 100ms cubic-bezier(.2,.9,.2,1), transform 1s cubic-bezier(.2,.9,.2,1), filter 700ms cubic-bezier(.2,.9,.2,1);
-    will-change: opacity, transform, filter;
-}
-
-/* When JS adds .show on load the element will drop into place and clear */
-.reveal.show,
-.reveal-fast.show,
-.reveal-faster.show {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-}
-
-/* Title reveal animation with rectangle placeholder */
-.title-reveal {
-    position: relative;
-    display: inline-block;
-    opacity: 0;
-}
-
-/* Rectangle placeholder that appears first */
-.title-reveal::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, var(--color-gradient4) 0%, var(--color-gradient6) 40%, var(--color-gradient8) 100%);
-    opacity: 0.7;
-    transform-origin: right center;
-    transform: scaleX(1);
-    z-index: 1;
-}
-
-/* Initial state: hide text */
-.title-reveal > * {
-    opacity: 0;
-}
-
-/* Stage 1: Show rectangle placeholder */
-.title-reveal.stage-1 {
-    opacity: 1;
-}
-
-.title-reveal.stage-1::before {
-    transform: scaleX(1);
-}
-
-/* Stage 2: Shrink rectangle to the right */
-.title-reveal.stage-2::before {
-    transform: scaleX(0);
-    transition: transform 600ms cubic-bezier(.2,.9,.2,1);
-}
-
-/* Stage 3: Reveal text with fade and slight movement */
-.title-reveal.stage-3 > * {
-    opacity: 1;
-    animation: titleTextReveal 800ms cubic-bezier(.2,.9,.2,1) forwards;
-}
-
-@keyframes titleTextReveal {
-    0% {
-        opacity: 0;
-        transform: translateY(10px);
-        filter: blur(4px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-        filter: blur(0);
-    }
 }
 
 /*----------Nav bar----------*/
@@ -238,7 +146,7 @@ nav.navbar.navbar-scrolled {
 
 /*----------Animated underline 1----------*/
 .underline-animate,
-.uderlinee-animate2{
+.underline-animate2{
     position: relative;
     display: inline-block; /* ensure pseudo-element matches text width */
     -webkit-tap-highlight-color: transparent;
@@ -258,7 +166,6 @@ nav.navbar.navbar-scrolled {
     transform-origin: left center;
     transition: transform 320ms cubic-bezier(.2,.9,.2,1);
     will-change: transform, opacity;
-    pointer-events: none;
 }
 
 /* animate on hover or keyboard focus */
@@ -273,9 +180,9 @@ nav.navbar.navbar-scrolled {
 .underline-animate2::after {
     background: linear-gradient( 
         135deg, 
-        var(--color-gradient2) 0%, 
-        var(--color-gradient4) 20%, 
-        var(--color-gradient6) 100% 
+        var(--color-gradient5) 0%, 
+        var(--color-gradient7) 20%, 
+        var(--color-gradient8) 100% 
     );
 }
 
@@ -289,6 +196,7 @@ nav.navbar.navbar-scrolled {
 
 .link,
 .link-back {
+    position: relative;
     transition: ease 0.2s;
 }
 
@@ -297,30 +205,65 @@ nav.navbar.navbar-scrolled {
     transition: ease 0.2s;
 }
 
-.link > i {
+/* Arrow icons - initially hidden */
+.link-icon,
+.link-icon-back {
     opacity: 0;
     position: absolute;
+    transition: opacity 300ms ease, transform 400ms cubic-bezier(.2,.9,.2,1);
+    will-change: opacity, transform;
+}
+
+/* Right arrow icon (for forward navigation) */
+.link-icon {
     transform: translateX(-10px);
-    transition: opacity 100ms cubic-bezier(.2,.9,.2,1), transform 1s cubic-bezier(.2,.9,.2,1), filter 700ms cubic-bezier(.2,.9,.2,1);
-    will-change: display, opacity, transform, filter;
 }
 
-.link-back > i {
-    opacity: 0;
-    position: absolute;
+/* Left arrow icon (for back navigation) */
+.link-icon-back {
     transform: translateX(10px);
-    transition: opacity 100ms cubic-bezier(.2,.9,.2,1), transform 1s cubic-bezier(.2,.9,.2,1), filter 700ms cubic-bezier(.2,.9,.2,1);
-    will-change: display, opacity, transform, filter;
 }
 
+/* Animated state for right arrow (pointing right, moving right-up) */
 .link-icon-animation {
     opacity: 1 !important;
     transform: translate(10px, -6px) rotate(45deg) !important;
-    filter: blur(0) !important;
 }
 
+/* Animated state for left arrow (pointing left, moving left-up) */
 .link-icon-animation-back {
     opacity: 1 !important;
     transform: translate(-20px, -6px) rotate(-45deg) !important;
-    filter: blur(0) !important;
+}
+
+/*----------Title Reveal Animation----------*/
+.title-reveal {
+    position: relative;
+    display: inline-block;
+    overflow: visible;
+}
+
+.title-reveal {
+    display: inline-block;
+    position: relative;
+    opacity: 0;
+}
+
+/* Rectangle overlay that covers the text */
+.title-reveal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        var(--color-gradient4) 0%,
+        var(--color-gradient5) 50%,
+        var(--color-gradient6) 100%
+    );
+    transform-origin: left center;
+    z-index: 1;
+    opacity: 0;
 }
