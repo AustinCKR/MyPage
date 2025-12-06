@@ -13,7 +13,5 @@ namespace MyPage.Data
             : base(options)
         {
         }
-
-        public DbSet<MyPage.Models.Comments> Comments { get; set; } = default!;
     }
 }

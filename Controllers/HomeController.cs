@@ -28,7 +28,7 @@ namespace MyPage.Controllers
             return View();
         }
 
-        public IActionResult Credit()
+        public IActionResult Credits()
         {
             return View();
         }

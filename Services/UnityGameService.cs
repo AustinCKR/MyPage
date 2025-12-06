@@ -15,19 +15,6 @@ namespace MyPage.Services
         {
             new UnityGameConfig
             {
-                GameName = "Test",
-                DisplayName = "Test Game",
-                Description = "A test Unity WebGL game",
-                BuildBaseName = "WebGLBuilds",
-                CompanyName = "DefaultCompany",
-                ProductVersion = "1.0.0",
-                CompressionFormat = "gz",
-                CanvasWidth = 960,
-                CanvasHeight = 600,
-                IsActive = true
-            },
-            new UnityGameConfig
-            {
                 GameName = "MyProject",
                 DisplayName = "MyProject",
                 Description = "A simple parkour game",
@@ -39,7 +26,6 @@ namespace MyPage.Services
                 CanvasHeight = 720,
                 IsActive = true
             }
-            // Add more games here as you upload them
         };
 
         public List<UnityGameConfig> GetAllGames()

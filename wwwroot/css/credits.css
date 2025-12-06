@@ -1,0 +1,19 @@
+﻿/*----------Credits----------*/
+.credits-div {
+    margin: 80px auto 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+    width: 1300px;
+}
+
+.credits-h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+}
+
+.credits-content-div {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
