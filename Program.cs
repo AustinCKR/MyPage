@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using MyPage.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure for production port binding
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
@@ -27,13 +25,10 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-// Remove HTTPS redirection for Digital Ocean (they handle SSL at load balancer level)
-if (app.Environment.IsDevelopment())
-{
-    app.UseHttpsRedirection();
-}
+// For Droplet, you can keep HTTPS redirection
+app.UseHttpsRedirection();
 
-// Configure static files for Unity WebGL
+// Configure static files for Unity WebGL (keep this)
 var provider = new FileExtensionContentTypeProvider();
 
 // MIME types
