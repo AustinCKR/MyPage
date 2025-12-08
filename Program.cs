@@ -4,6 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using MyPage.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure for production port binding
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 builder.Services.AddDbContext<MyPageContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyPageContext") ?? throw new InvalidOperationException("Connection string 'MyPageContext' not found.")));
 
@@ -22,7 +27,11 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+// Remove HTTPS redirection for Digital Ocean (they handle SSL at load balancer level)
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 // Configure static files for Unity WebGL
 var provider = new FileExtensionContentTypeProvider();
