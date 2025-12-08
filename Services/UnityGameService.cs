@@ -15,10 +15,10 @@ namespace MyPage.Services
         {
             new UnityGameConfig
             {
-                GameName = "MyProject",
-                DisplayName = "MyProject",
+                GameName = "FrogParkour",
+                DisplayName = "FrogParkour",
                 Description = "A simple parkour game",
-                BuildBaseName = "MyProject",
+                BuildBaseName = "FrogParkour",
                 CompanyName = "DefaultCompany",
                 ProductVersion = "1.0.0",
                 CompressionFormat = "br",

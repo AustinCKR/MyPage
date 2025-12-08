@@ -212,3 +212,46 @@
 .abt-me-link-div {
     margin: 100px 0;
 }
+
+/*----------Contact Section----------*/
+.abt-me-contact-div {
+    margin-top: 100px;
+}
+
+.abt-me-contact-div h2 {
+    margin-bottom: 50px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.contact-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.contact-item {
+    flex-direction: column;
+    text-align: center;
+}
+
+.contact-item i {
+    font-size: 36px;
+    transition: all 300ms ease;
+    will-change: transform;
+}
+
+.contact-item i:hover {
+    transform: translateY(-5px);
+    transition: all 300ms ease;
+}
+
+.contact-link,
+.contact-link:hover {
+    color: var(--color-gradient6);
+    text-decoration: none;
+}
