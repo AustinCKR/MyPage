@@ -1,0 +1,10 @@
+@{
+    ViewData["Title"] = "Game Not Found";
+    string gameName = ViewData["GameName"]?.ToString();
+}
+
+<div class="gnf-div text-center">
+    <h1 class="mb-4">Game Not Found</h1>
+    <p>The game '@gameName' does not exist or is unavailable D:</p>
+    <button class="prev-btn" onclick="history.back()">Back to Previous Page</button>
+</div>

@@ -1,0 +1,21 @@
+﻿/*----------Playground----------*/
+.playground-div {
+    margin: 0 auto;
+    font-size: 1.25rem;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+    height: calc(100vh - 60px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.playground-div iframe {
+    max-height: calc(100vh - 60px);
+    aspect-ratio: 1300 / 691.2;
+    border: none;
+    display: block;
+    padding: 30px;
+}

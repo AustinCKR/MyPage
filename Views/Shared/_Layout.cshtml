@@ -10,8 +10,9 @@
     <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/about-me.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/projects.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/unity-game.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/playground.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/credits.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/game-not-found.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
@@ -37,7 +38,9 @@
                             <i class="fa-solid fa-caret-down underline-animate"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item text-white underline-animate" asp-controller="Playground" asp-action="UnityGame" asp-route-gameName="FrogParkour">Frog Parkour</a></li>
+                            <li>
+                                <a class="dropdown-item text-white underline-animate" asp-controller="Home" asp-action="Playground" asp-route-gameName="FrogParkour">Frog Parkour</a>
+                                </li>
                         </ul>
                     </li>
                     <li class="nav-item">

@@ -1,0 +1,97 @@
+﻿/*----------Projects----------*/
+.projects-div {
+    margin: 80px auto 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+    width: 1300px;
+}
+
+.projects-h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+}
+
+.projects-content-div {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.project-card {
+    background-color: rgba(25,25,25,1);
+    border: solid 1px rgba(25,25,25,1);
+    border-radius: 15px;
+    height: 480px;
+}
+
+.project-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px 15px 0 0;
+}
+
+.project-image-scaledown {
+    object-fit: scale-down;
+}
+
+.project-title {
+    font-weight: bold;
+    font-size: 1rem;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.project-detail {
+    color: rgba(127,127,127);
+    font-size: 1rem;
+    min-height: 105px;
+}
+
+.project-skill {
+    color: rgba(127,127,127);
+    border: solid 1px rgba(50,50,50);
+    background-color: rgba(50,50,50);
+    border-radius: 8px;
+    padding: 3px 6px;
+    margin-right: 5px;
+    font-size: 0.8rem;
+}
+
+.project-button,
+.project-button-disabled {
+    display: inline-block;
+    padding: 5px 10px;
+    border: solid 1px rgba(25,25,25);
+    border-radius: 8px;
+    margin-top: 15px;
+    background-color: rgba(20,20,20);
+}
+
+.project-button {
+    cursor: pointer;
+}
+
+.project-button-disabled {
+    background-color: rgba(50,50,50);
+}
+
+.project-button-disabled {
+    cursor: not-allowed !important;
+}
+
+.project-button > a,
+.project-button > i,
+.project-button-disabled > span {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: white;
+    text-align: center;
+}
+
+.project-button-youtube {
+    background-color: rgb(255,0,0);
+}

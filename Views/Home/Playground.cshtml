@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = ViewData["Title"] ?? "Playground"; // Default to "Playground" if not set
+    string iframeSrc = ViewData["IframeSrc"]?.ToString();
+}
+
+<div class="playground-div">
+    @if (!string.IsNullOrEmpty(iframeSrc))
+    {
+        <iframe src="@iframeSrc"
+                frameborder="0"
+                allowfullscreen>
+        </iframe>
+    }
+    else
+    {
+        <p>No content to display. Please provide a valid source.</p>
+    }
+</div>

@@ -33,6 +33,27 @@ namespace MyPage.Controllers
             return View();
         }
 
+        public IActionResult Playground(string gameName)
+        {
+            string iframeSrc = gameName switch
+            {
+                "FrogParkour" => "https://play.unity.com/api/v1/games/game/4ca09c5f-4fc7-41ac-aacc-52cd827ab6ae/build/latest/frame",
+                _ => null // Default case for unknown game names
+            };
+
+            if (string.IsNullOrEmpty(iframeSrc))
+            {
+                // Return a view with the error message
+                ViewData["Title"] = "Game Not Found";
+                ViewData["GameName"] = gameName;
+                return View("GameNotFound");
+            }
+
+            ViewData["IframeSrc"] = iframeSrc;
+            ViewData["Title"] = $"Playground - {gameName}";
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
